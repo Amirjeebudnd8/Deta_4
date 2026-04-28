@@ -9,9 +9,7 @@ jobs:
     steps:
       - name: دریافت کد مخزن
         uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
+        # remove persist-credentials: false to keep git credentials
 
       - name: نصب پایتون
         uses: actions/setup-python@v5
@@ -31,9 +29,3 @@ jobs:
           git add BTCUSDT_5m_test.csv
           git commit -m "Add BTC 5-min test data" || echo "No changes to commit"
           git push
-
-      - name: آپلود خروجی (پشتیبان)
-        uses: actions/upload-artifact@v4
-        with:
-          name: btc-5min-test
-          path: BTCUSDT_5m_test.csv
