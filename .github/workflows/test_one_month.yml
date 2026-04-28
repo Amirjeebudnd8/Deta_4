@@ -7,6 +7,12 @@ jobs:
   download_one_month:
     runs-on: ubuntu-latest
     steps:
+      - name: دریافت کد مخزن
+        uses: actions/checkout@v4
+
+      - name: لیست فایل‌های موجود
+        run: ls -la
+
       - name: نصب پایتون
         uses: actions/setup-python@v5
         with:
@@ -15,7 +21,7 @@ jobs:
       - name: نصب کتابخانه‌ها
         run: pip install requests pandas
 
-      - name: دانلود و ساخت CSV
+      - name: اجرای اسکریپت
         run: python test_one_month.py
 
       - name: آپلود خروجی
