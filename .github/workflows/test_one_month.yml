@@ -1,17 +1,17 @@
-name: تست دانلود یک ماه
+name: تست دانلود یک ماه و commit به مخزن
 
 on:
   workflow_dispatch:
 
 jobs:
-  download_one_month:
+  download_and_commit:
     runs-on: ubuntu-latest
     steps:
       - name: دریافت کد مخزن
         uses: actions/checkout@v4
-
-      - name: لیست فایل‌های موجود
-        run: ls -la
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
       - name: نصب پایتون
         uses: actions/setup-python@v5
@@ -21,10 +21,18 @@ jobs:
       - name: نصب کتابخانه‌ها
         run: pip install requests pandas
 
-      - name: اجرای اسکریپت
+      - name: اجرای اسکریپت دانلود
         run: python test_one_month.py
 
-      - name: آپلود خروجی
+      - name: commit و push فایل CSV
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "actions@github.com"
+          git add BTCUSDT_5m_test.csv
+          git commit -m "Add BTC 5-min test data" || echo "No changes to commit"
+          git push
+
+      - name: آپلود خروجی (پشتیبان)
         uses: actions/upload-artifact@v4
         with:
           name: btc-5min-test
