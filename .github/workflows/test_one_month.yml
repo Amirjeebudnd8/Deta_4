@@ -1,0 +1,25 @@
+name: تست دانلود یک ماه
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download_one_month:
+    runs-on: ubuntu-latest
+    steps:
+      - name: نصب پایتون
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: نصب کتابخانه‌ها
+        run: pip install requests pandas
+
+      - name: دانلود و ساخت CSV
+        run: python test_one_month.py
+
+      - name: آپلود خروجی
+        uses: actions/upload-artifact@v4
+        with:
+          name: btc-5min-test
+          path: BTCUSDT_5m_test.csv
